@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico de Computadora</title>
+   <!-- Agregar favicon -->
+   <link rel="icon" type="image/png" href="sintoma.png">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    /* Estilo personalizado de los radio buttons */
+    .custom-radio input[type="radio"] {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #3B82F6;
+      border-radius: 50%;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+  
+    .custom-radio input[type="radio"]:checked {
+      background-color: #2563EB;
+      border-color: #2563EB;
+    }
+  
+    .custom-radio input[type="radio"]:checked::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      transition: transform 0.3s ease-in-out;
+    }
+  
+    .custom-radio input[type="radio"]:hover {
+      transform: scale(1.1);
+      border-color: #1D4ED8;
+      box-shadow: 0 0 8px rgba(29, 78, 216, 0.5);
+    }
+  
+    /* Alineación correcta del texto */
+    .custom-radio {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+  
+    .custom-radio label {
+      font-size: 1.15rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+  
+    /* Sombra personalizada para las tarjetas */
+    .card {
+      background-color: #F3F4F6; /* Color claro para las tarjetas */
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      opacity: 0; /* Para aplicar la animación */
+      transform: translateY(50px); /* Inicio con desplazamiento */
+      animation: fadeInUp 1.5s ease forwards; /* Ajustada a 1.5 segundos */
+    }
+  
+    /* Ajustes del botón */
+    .custom-button {
+      background-color: #3B82F6; /* Azul brillante para el botón */
+      border: none;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: 1.2rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+  
+    .custom-button:hover {
+      background-color: #2563EB; /* Cambiar tono en hover */
+      box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+      transform: scale(1.05);
+    }
+  
+    /* Animación de entrada (fade-in y desplazamiento hacia arriba) */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  
+    /* Mejoras en el aviso de diagnóstico */
+    .diagnostic-alert {
+      background: linear-gradient(135deg, #E0F2FE, #CFFAFE); /* Degradado sutil */
+      border-left: 10px solid #0284C7; /* Acentuar el borde */
+      color: #0369A1;
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.1rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombras más profundas */
+      animation: fadeIn 0.3s ease-in-out;
+    }
+  
+    .diagnostic-alert i {
+      font-size: 2.5rem; /* Ícono más grande */
+      color: #0284C7;
+    }
+  
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+  
+</head>
+<body class="bg-gradient-to-r from-blue-100 via-purple-200 to-indigo-200 min-h-screen flex items-center justify-center">
+
+  <!-- Contenedor principal -->
+  <div class="container mx-auto p-4 md:p-6 max-w-7xl">
+    <!-- Título Principal -->
+    <h1 class="text-4xl md:text-5xl font-extrabold text-center text-indigo-800 mb-8 drop-shadow-lg">Diagnóstico de Computadora</h1>
+    
+    <!-- Tarjeta con el Formulario -->
+    <div class="card">
+      <h2 class="text-2xl md:text-3xl font-bold mb-6 text-gray-800 text-center">Selecciona las características de tu equipo</h2>
+      
+      <form id="diagnosticForm" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Las 20 preguntas distribuidas en 4 columnas (responsive) -->
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">1. Manda mensajes de error:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta1" value="si" id="si1">
+            <label for="si1">Sí</label>
+            <input type="radio" name="pregunta1" value="no" id="no1" checked>
+            <label for="no1">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">2. Reinicio continuo:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta2" value="si" id="si2">
+            <label for="si2">Sí</label>
+            <input type="radio" name="pregunta2" value="no" id="no2" checked>
+            <label for="no2">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">3. Se detiene de manera inesperada:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta3" value="si" id="si3">
+            <label for="si3">Sí</label>
+            <input type="radio" name="pregunta3" value="no" id="no3" checked>
+            <label for="no3">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">4. Presenta pantallazos azules:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta4" value="si" id="si4">
+            <label for="si4">Sí</label>
+            <input type="radio" name="pregunta4" value="no" id="no4" checked>
+            <label for="no4">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">5. Error al guardar información:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta5" value="si" id="si5">
+            <label for="si5">Sí</label>
+            <input type="radio" name="pregunta5" value="no" id="no5" checked>
+            <label for="no5">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">6. Hace ruidos:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta6" value="si" id="si6">
+            <label for="si6">Sí</label>
+            <input type="radio" name="pregunta6" value="no" id="no6" checked>
+            <label for="no6">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">7. Realiza revisión al reinicio:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta7" value="si" id="si7">
+            <label for="si7">Sí</label>
+            <input type="radio" name="pregunta7" value="no" id="no7" checked>
+            <label for="no7">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">8. Está lento:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta8" value="si" id="si8">
+            <label for="si8">Sí</label>
+            <input type="radio" name="pregunta8" value="no" id="no8" checked>
+            <label for="no8">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">9. Tiene muchos programas instalados:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta9" value="si" id="si9">
+            <label for="si9">Sí</label>
+            <input type="radio" name="pregunta9" value="no" id="no9" checked>
+            <label for="no9">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">10. Tiene mal rendimiento:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta10" value="si" id="si10">
+            <label for="si10">Sí</label>
+            <input type="radio" name="pregunta10" value="no" id="no10" checked>
+            <label for="no10">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">11. Lectura errónea del disco:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta11" value="si" id="si11">
+            <label for="si11">Sí</label>
+            <input type="radio" name="pregunta11" value="no" id="no11" checked>
+            <label for="no11">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">12. Bloquea aplicaciones:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta12" value="si" id="si12">
+            <label for="si12">Sí</label>
+            <input type="radio" name="pregunta12" value="no" id="no12" checked>
+            <label for="no12">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">13. Temperatura alta en procesador:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta13" value="si" id="si13">
+            <label for="si13">Sí</label>
+            <input type="radio" name="pregunta13" value="no" id="no13" checked>
+            <label for="no13">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">14. No inicia bien la gráfica:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta14" value="si" id="si14">
+            <label for="si14">Sí</label>
+            <input type="radio" name="pregunta14" value="no" id="no14" checked>
+            <label for="no14">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">15. Tiene golpes:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta15" value="si" id="si15">
+            <label for="si15">Sí</label>
+            <input type="radio" name="pregunta15" value="no" id="no15" checked>
+            <label for="no15">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">16. Pitido largo al arrancar:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta16" value="si" id="si16">
+            <label for="si16">Sí</label>
+            <input type="radio" name="pregunta16" value="no" id="no16" checked>
+            <label for="no16">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">17. Muchos archivos dañados:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta17" value="si" id="si17">
+            <label for="si17">Sí</label>
+            <input type="radio" name="pregunta17" value="no" id="no17" checked>
+            <label for="no17">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">18. Sobrecalentamiento:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta18" value="si" id="si18">
+            <label for="si18">Sí</label>
+            <input type="radio" name="pregunta18" value="no" id="no18" checked>
+            <label for="no18">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">19. No arranca:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta19" value="si" id="si19">
+            <label for="si19">Sí</label>
+            <input type="radio" name="pregunta19" value="no" id="no19" checked>
+            <label for="no19">No</label>
+          </div>
+        </div>
+
+        <div class="bg-indigo-50 p-4 rounded-lg shadow-md">
+          <label class="block text-gray-700 text-lg font-medium mb-2">20. Cortocircuitos:</label>
+          <div class="custom-radio">
+            <input type="radio" name="pregunta20" value="si" id="si20">
+            <label for="si20">Sí</label>
+            <input type="radio" name="pregunta20" value="no" id="no20" checked>
+            <label for="no20">No</label>
+          </div>
+        </div>
+
+        <!-- Botón de diagnóstico que ocupa todo el ancho en pantallas grandes -->
+        <div class="col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4 flex justify-center mt-8">
+          <button id="diagnoseBtn" type="button" class="custom-button">
+            Diagnosticar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Resultado del diagnóstico -->
+    <div id="diagnosticResult" class="hidden diagnostic-alert mt-6">
+        <i class="fas fa-info-circle"></i> <!-- Ícono de información -->
+        <div>
+          <strong class="font-bold">Diagnóstico:</strong>
+          <span id="resultMessage" class="block">No se ha detectado un problema específico. Se recomienda realizar una revisión general del equipo.</span>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Vincular el archivo JavaScript -->
+    <script src="diagnostico.js"></script>
+    <!-- Link para FontAwesome (íconos) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
